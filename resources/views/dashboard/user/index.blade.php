@@ -1,0 +1,71 @@
+@extends('dashboard.layouts.app')
+@section('title', 'Quản Lý Tài Khoản')
+
+@section('content')
+
+@php
+$breadcrumbs = [
+[
+'name' => 'Danh sách tài khoản',
+'url' => route('user.index'),
+'active' => true
+]
+];
+
+$columns = [
+'id' => 'ID',
+'fullname' => 'Họ Tên',
+'email' => 'Email',
+'created_at' => 'Ngày Tạo',
+'role' => 'Chức Vụ',
+'status' => 'Trạng Thái',
+'action' => '',
+];
+@endphp
+<div class="py-4">
+    <x-Dashboard.Shared.Breadcrumb :breadcrumbs="$breadcrumbs" />
+    <x-Dashboard.Shared.ButtonCreate name='Taọ Tài Khoản' url='user.create' />
+</div>
+
+<x-Dashboard.Tables.Table name="tài khoản" :columns="$columns" create="user.create" :value="$users">
+    @foreach ($users as $user)
+    <tr>
+        <td>
+            {{ $user->id }}
+        </td>
+        <td>
+            <div class="d-flex align-items-center">
+                <img class="rounded-circle" src="        @if (File::exists($user->avatar))
+                        {{ asset($user->avatar) }}
+                    @else
+                        {{ $user->avatar }}
+                        @endif" style="max-width:50px" alt="Avatar">
+
+                <span class="mx-2">{{ $user->fullname }}</span>
+            </div>
+        </td>
+        <td>{{ $user->email }}</td>
+        <td>{{ $user->created_at ? $user->created_at->format('d/m/Y') : '' }}</td>
+        <td class="text-center">
+            @if ($user->role == 'admin')
+            <span class="badge badge-sm ms-1 bg-success">Admin</span>
+            @elseif ($user->role == 'customer')
+            <span class="badge badge-sm ms-1 bg-primary">Khách hàng</span>
+            @else
+            <span class="badge badge-sm ms-1 bg-info">Nhân viên</span>
+            @endif
+        </td>
+        <td class="text-center">
+            @if ($user->status == 'active')
+            <span class="badge badge-sm ms-1 bg-success">Hoạt động</span>
+            @else
+            <span class="badge badge-sm ms-1 bg-danger">Khoá</span>
+            @endif
+        </td>
+        <td>
+            <x-Dashboard.Shared.ButtonAction :id="$user->id" show="user.show" edit="user.edit" delete="user.destroy" />
+        </td>
+    </tr>
+    @endforeach
+</x-Dashboard.Tables.Table>
+@endsection
