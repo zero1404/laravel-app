@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,31 +14,38 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::group(['as' => 'shop.'], function () {
+    Route::get('/', 'HomeController@index')->name('home');
+    Route::get('/about', 'HomeController@showAbout')->name('about');
 
-Route::group(['prefix' => '/dashboard'], function () {
-    Route::get('/login', 'LoginDashboardController@showLoginForm')->name('dashboard.login');
+    Route::group(['prefix' => '/auth'], function () {
+        Route::get('/login', 'HomeController@showLogin')->name('login');
+        Route::get('/register', 'HomeController@showRegister')->name('register');
+    });
+
+
     Route::group(['middleware' => ['auth']], function () {
-        Route::get('/home', 'DashboardController@index')->name(('dashboard.index'));
-        Route::get('/file-manager', 'DashboardController@fileManager')->name('dashboard.file-manager');
-        Route::resources([
-            'category' => 'CategoryController',
-            'order' => 'OrderController',
-            'product' => 'ProductController',
-            'user' => 'UserController',
-            'coupon' => 'CouponController',
-            'author' => 'AuthorController',
-            'language' => 'LanguageController',
-            'publisher' => 'PublisherController',
-          ]);
     });
 });
 
-Auth::routes();
+Route::get('/dashboard/login', 'LoginDashboardController@showLoginForm')->name('dashboard.login');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::group(['prefix' => '/dashboard', 'middleware' => ['auth']], function () {
+    Route::get('/', 'DashboardController@index')->name('dashboard.home');
+    Route::get('/file-manager', 'DashboardController@fileManager')->name('dashboard.file-manager');
+    Route::resources([
+        'category' => 'CategoryController',
+        'order' => 'OrderController',
+        'product' => 'ProductController',
+        'user' => 'UserController',
+        'coupon' => 'CouponController',
+        'author' => 'AuthorController',
+        'language' => 'LanguageController',
+        'publisher' => 'PublisherController'
+    ]);
+});
+
+Auth::routes();
 
 Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
     \UniSharp\LaravelFilemanager\Lfm::routes();
