@@ -1,14 +1,17 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Product;
+use App\Models\Author;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        return view('shop.home.index');
+        $products = Product::orderBy('id', 'DESC')->paginate(4);
+        $tamp = Product::all();
+        return view('shop.home.index',compact('products'), compact('tamp'));
     }
 
     public function showAbout()

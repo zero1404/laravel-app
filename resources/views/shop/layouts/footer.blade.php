@@ -1,92 +1,71 @@
-<footer>
-  <div class="footer-wrappper section-bg">
-    <div class="footer-area footer-padding">
-      <div class="container">
-        <div class="row justify-content-between">
-          <div class="col-xl-3 col-lg-5 col-md-4 col-sm-6">
-            <div class="single-footer-caption mb-50">
-              <div class="single-footer-caption mb-30">
-
-                <div class="footer-logo mb-25">
-                  <a href=""><img src="{{ asset('shop/img/logo/footer.png') }}" alt=""></a>
-                </div>
-                <div class="footer-tittle">
-                  <div class="footer-pera">
-                    <p>Get the breathing space now, and we’ll extend your term at the other end year for go.</p>
+<!-- Footer Section Begin -->
+<footer class="footer">
+  <div class="container">
+      <div class="row">
+          <div class="col-lg-4 col-md-6 col-sm-7">
+              <div class="footer__about">
+                  <div class="footer__logo">
+                      <a href="./index.html"><img src="{{asset('shop/img/logo.png') }}" alt=""></a>
                   </div>
-                </div>
-
-                <div class="footer-social">
-                  <a href="https://bit.ly/sai4ull"><i class="fab fa-facebook"></i></a>
-                  <a href="#"><i class="fab fa-instagram"></i></a>
-                  <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                  <a href="#"><i class="fab fa-youtube"></i></a>
-                </div>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                  cilisis.</p>
+                  <div class="footer__payment">
+                      <a href="#"><img src="{{ asset ('shop/img/payment/payment-1.png') }}" alt=""></a>
+                      <a href="#"><img src="{{ asset ('shop/img/payment/payment-2.png') }}" alt=""></a>
+                      <a href="#"><img src="{{ asset ('shop/img/payment/payment-3.png') }}" alt=""></a>
+                      <a href="#"><img src="{{ asset ('shop/img/payment/payment-4.png') }}" alt=""></a>
+                      <a href="#"><img src="{{ asset ('shop/img/payment/payment-5.png') }}" alt=""></a>
+                  </div>
               </div>
-            </div>
           </div>
-          <div class="col-xl-2 col-lg-3 col-md-4 col-sm-5">
-            <div class="single-footer-caption mb-50">
-              <div class="footer-tittle">
-                <h4>Book Category</h4>
-                <ul>
-                  <li><a href="#">History</a></li>
-                  <li><a href="#">Horror - Thriller</a></li>
-                  <li><a href="#">Love Stories</a></li>
-                  <li><a href="#">Science Fiction</a></li>
-                  <li><a href="#">Business</a></li>
-                </ul>
+          <div class="col-lg-2 col-md-3 col-sm-5">
+              <div class="footer__widget">
+                  <h6>Quick links</h6>
+                  <ul>
+                      <li><a href="#">About</a></li>
+                      <li><a href="#">Blogs</a></li>
+                      <li><a href="#">Contact</a></li>
+                      <li><a href="#">FAQ</a></li>
+                  </ul>
               </div>
-            </div>
           </div>
-          <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
-            <div class="single-footer-caption mb-50">
-              <div class="footer-tittle">
-                <h4>&nbsp;</h4>
-                <ul>
-                  <li><a href="#">Biography</a></li>
-                  <li><a href="#">Astrology</a></li>
-                  <li><a href="#">Digital Marketing</a></li>
-                  <li><a href="#">Software Development</a></li>
-                  <li><a href="#">Ecommerce</a></li>
-                </ul>
+          <div class="col-lg-2 col-md-3 col-sm-4">
+              <div class="footer__widget">
+                  <h6>Account</h6>
+                  <ul>
+                      <li><a href="#">My Account</a></li>
+                      <li><a href="#">Orders Tracking</a></li>
+                      <li><a href="#">Checkout</a></li>
+                      <li><a href="#">Wishlist</a></li>
+                  </ul>
               </div>
-            </div>
           </div>
-          <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6">
-            <div class="single-footer-caption mb-50">
-              <div class="footer-tittle">
-                <h4>Site Map</h4>
-                <ul class="mb-20">
-                  <li><a href="#">Home</a></li>
-                  <li><a href="#">About Us</a></li>
-                  <li><a href="#">FAQs</a></li>
-                  <li><a href="#">Blog</a></li>
-                  <li><a href="#">Contact</a></li>
-                </ul>
+          <div class="col-lg-4 col-md-8 col-sm-8">
+              <div class="footer__newslatter">
+                  <h6>NEWSLETTER</h6>
+                  <form action="#">
+                      <input type="text" placeholder="Email">
+                      <button type="submit" class="site-btn">Subscribe</button>
+                  </form>
+                  <div class="footer__social">
+                      <a href="#"><i class="fa fa-facebook"></i></a>
+                      <a href="#"><i class="fa fa-twitter"></i></a>
+                      <a href="#"><i class="fa fa-youtube-play"></i></a>
+                      <a href="#"><i class="fa fa-instagram"></i></a>
+                      <a href="#"><i class="fa fa-pinterest"></i></a>
+                  </div>
               </div>
-            </div>
           </div>
-        </div>
       </div>
-    </div>
-
-    <div class="footer-bottom-area">
-      <div class="container">
-        <div class="footer-border">
-          <div class="row d-flex align-items-center">
-            <div class="col-xl-12 ">
-              <div class="footer-copy-right text-center">
-                Copyright &copy; {{ Date('Y') }}
+      <div class="row">
+          <div class="col-lg-12">
+              <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+              <div class="footer__copyright__text">
+                  <p>Copyright &copy; <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a></p>
               </div>
-            </div>
+              <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
           </div>
-        </div>
       </div>
-    </div>
   </div>
 </footer>
-
-<div id="back-top">
-  <a title="Go to Top" href="#"> <i class="fas fa-level-up-alt"></i></a>
-</div>
+<!-- Footer Section End -->
