@@ -15,7 +15,7 @@ class PublisherController extends Controller
      */
     public function index()
     {
-        $publishers = Publisher::orderBy('id', 'DESC')->paginate('10');
+        $publishers = Publisher::orderBy('id', 'DESC')->get();
         return view('dashboard.publisher.index', compact('publishers'));
     }
 

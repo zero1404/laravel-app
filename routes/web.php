@@ -29,9 +29,10 @@ Route::group(['as' => 'shop.'], function () {
 });
 
 Route::get('/dashboard/login', 'LoginDashboardController@showLoginForm')->name('dashboard.login');
+Route::post('/dashboard/login', 'LoginDashboardController@login')->name('dashboard.handle.login');
 
 Route::group(['prefix' => '/dashboard', 'middleware' => ['auth']], function () {
-    Route::get('/', 'DashboardController@index')->name('dashboard.home');
+    Route::get('/', 'DashboardController@index')->name('dashboard.index');
     Route::get('/file-manager', 'DashboardController@fileManager')->name('dashboard.file-manager');
     Route::resources([
         'category' => 'CategoryController',

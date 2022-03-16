@@ -111,12 +111,6 @@ d.addEventListener("DOMContentLoaded", function (event) {
         });
     });
 
-    // DataTables
-    var dataTableEl = d.getElementById("datatable");
-    if (dataTableEl) {
-        const dataTable = new simpleDatatables.DataTable(dataTableEl);
-    }
-
     if (d.querySelector(".input-slider-container")) {
         [].slice
             .call(d.querySelectorAll(".input-slider-container"))
@@ -1437,16 +1431,16 @@ d.addEventListener("DOMContentLoaded", function (event) {
             }, 500);
         }
 
-        var sidebarToggle = d.getElementById("sidebar-toggle");
-        sidebarToggle.addEventListener("click", function () {
-            if (sidebar.classList.contains("contracted")) {
-                sidebar.classList.remove("contracted");
-                localStorage.removeItem("sidebar", "contracted");
-            } else {
-                sidebar.classList.add("contracted");
-                localStorage.setItem("sidebar", "contracted");
-            }
-        });
+        // var sidebarToggle = d.getElementById("sidebar-toggle");
+        // sidebarToggle.addEventListener("click", function () {
+        //     if (sidebar.classList.contains("contracted")) {
+        //         sidebar.classList.remove("contracted");
+        //         localStorage.removeItem("sidebar", "contracted");
+        //     } else {
+        //         sidebar.classList.add("contracted");
+        //         localStorage.setItem("sidebar", "contracted");
+        //     }
+        // });
 
         sidebar.addEventListener("mouseenter", function () {
             if (localStorage.getItem("sidebar") === "contracted") {

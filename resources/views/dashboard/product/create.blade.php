@@ -48,8 +48,8 @@ $breadcrumbs = [
     </div>
     <div class="row">
       <div class="col">
-        <x-Dashboard.Forms.Input name="Ngày xuất bản" property="publication_date" type="date" placeholder="Nhập ngày xuất bản"
-        value="{{ old('publication_date') }}" />
+        <x-Dashboard.Forms.Input name="Ngày xuất bản" property="publication_date" type="date"
+          placeholder="Nhập ngày xuất bản" value="{{ old('publication_date') }}" />
       </div>
       <div class="col">
         <x-Dashboard.Forms.Input name="Ngày Tái Bản" property="reprint_date" type="date" placeholder="Nhập ngày tái bản"
@@ -109,5 +109,32 @@ $breadcrumbs = [
 <script src="/vendor/laravel-filemanager/js/stand-alone-button.js"></script>
 <script>
   $('#lfm').filemanager('image');
+</script>
+
+<script>
+  const selectStatusField = d.querySelector('#inputStatus');
+  if(selectStatusField) {
+    const choices = new Choices(selectStatusField); 
+  }
+
+  const selectCategoryField = d.querySelector('#inputCategory_id');
+  if(selectCategoryField) {
+    const choices = new Choices(selectCategoryField); 
+  }
+
+  const selectLanguageField = d.querySelector('#inputLanguage_id');
+  if(selectLanguageField) {
+    const choices = new Choices(selectLanguageField); 
+  }
+
+  const selectPubslisherField = d.querySelector('#inputPublisher_id');
+  if(selectPubslisherField) {
+    const choices = new Choices(selectPubslisherField); 
+  }
+
+  const selectAuthorField = d.querySelector('#inputAuthor_id');
+  if(selectAuthorField) {
+    const choices = new Choices(selectAuthorField); 
+  }
 </script>
 @endpush

@@ -22,7 +22,7 @@
         <!-- End footer -->
     </main>
 
-    @include('dashboard.layouts.script')
+    @include('dashboard.layouts.scripts')
 </body>
 
 </html>

@@ -8,7 +8,7 @@
         @method('delete')
         <button class="btn btn-danger btn-sm btn-circle btnDelete" data-id="{{ $id }}" data-toggle="tooltip"
             data-placement="bottom" title="Xoá">
-            <i class="fa-solid fa-trash-can"></i>
+            <i class="fas fa-trash"></i>
         </button>
     </form>
 </div>

@@ -6,7 +6,7 @@ $breadcrumbs = [
 [
 'name' => 'Danh sách tác giả',
 'url' => route('author.index'),
-'active' => true
+'active' => false,
 ],
 [
 'name' => 'Sửa tác giả',

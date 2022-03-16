@@ -43,3 +43,12 @@ $breadcrumbs = [
   </x-Dashboard.Forms.FormCreate>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+  const selectStatusField = d.querySelector('#inputStatus');
+  if(selectStatusField) {
+    const choices = new Choices(selectStatusField); 
+  }
+</script>
+@endpush

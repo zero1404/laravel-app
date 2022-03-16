@@ -14,25 +14,28 @@ class User extends Authenticatable
 
     protected $table = 'users';
     protected $appends = ['fullname'];
-    
+
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var string[]
      */
     protected $fillable = [
         'firstname',
         'lastname',
+        'password',
         'avatar',
+        'address_id',
         'email',
         'telephone',
-        'password',
+        'role',
+        'status'
     ];
 
     /**
      * The attributes that should be hidden for serialization.
      *
-     * @var array<int, string>
+     * @var array
      */
     protected $hidden = [
         'password',
@@ -42,7 +45,7 @@ class User extends Authenticatable
     /**
      * The attributes that should be cast.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
@@ -51,11 +54,6 @@ class User extends Authenticatable
     public function getFullNameAttribute()
     {
         return "{$this['lastname']} {$this['firstname']}";
-    }
-
-    public function posts()
-    {
-        return $this->hasMany('App\Models\Posts', 'user_id', 'id')->where('status', 'active');
     }
 
     public function address()

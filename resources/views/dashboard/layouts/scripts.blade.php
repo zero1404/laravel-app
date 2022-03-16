@@ -31,6 +31,9 @@
 <!-- Notyf -->
 <script src="{{ asset('vendor/notyf/notyf.min.js') }}"></script>
 
+<!-- Notyf -->
+<script src="{{ asset('vendor/choices/choices.min.js') }}"></script>
+
 <!-- Simplebar -->
 <script src="{{ asset('vendor/simplebar/dist/simplebar.min.js') }}"></script>
 
@@ -41,10 +44,10 @@
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 
 <!-- Volt JS -->
-<script src="{{ asset('dashboard/js/volt.js') }}"></script>
+<script src="{{ asset('admin/js/volt.js') }}"></script>
 
 
 <!-- Custom JS -->
-<script src="{{ asset('dashboard/js/custom.js') }}"></script>
+<script src="{{ asset('admin/js/custom.js') }}"></script>
 
 @stack('scripts')

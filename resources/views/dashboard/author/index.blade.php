@@ -40,21 +40,3 @@ $columns = [
 </x-Dashboard.Tables.Table>
 </div>
 @endsection
-
-@push('scripts')
-<script>
-  const dataTableEl = d.getElementById('datatable');
-  if(dataTableEl) {
-    const dataTable = new simpleDatatables.DataTable(dataTableEl,
-    {
-      labels: {
-        placeholder: "Tìm kiếm...",
-        perPage: "{select} mục trên mỗi trang",
-        noRows: "Danh sách trống",
-        noResults: "Không có kết quả nào phù hợp với truy vấn tìm kiếm của bạn",
-        info: "Showing {start} to {end} of {rows} entries" //
-    }
-  });
-  }
-</script>
-@endpush

@@ -48,14 +48,6 @@ class UserController extends Controller
             'lastname.string' => 'Họ phải là chuỗi kí tự',
             'lastname.required' => 'Họ không được bỏ trống',
             'lastname.max' => 'Họ không được vượt quá 100 kí tự',
-            'address.required' => 'Địa chỉ không được bỏ trống',
-            'address.string' => 'Địa chỉ phải là chuỗi kí tự',
-            'province.required' => 'Tỉnh không được bỏ trống',
-            'province.string' => 'Tỉnh phải là chuỗi kí tự',
-            'district.required' => 'Quận/huyện không được bỏ trống',
-            'district.string' => 'Quận/huyện phải là chuỗi kí tự',
-            'ward.required' => 'Phường/xã không được bỏ trống',
-            'ward.string' => 'Phường/xã phải là chuỗi kí tự',
             'email.required' => 'Email không được bỏ trống',
             'email.email' => 'Email không hợp lệ',
             'email.unique' => 'Email không có sẵn',
@@ -82,10 +74,6 @@ class UserController extends Controller
                 'password' => 'required|string',
                 'repassword' => 'required|string|same:password',
                 'avatar' => 'nullable|string',
-                'address' => 'required|string',
-                'province' => 'required|string',
-                'district' => 'required|string',
-                'ward' => 'required|string',
                 'email' => 'required|email|unique:users',
                 'telephone' => 'required|string|max:10',
                 'role' => 'required|in:admin,employee,customer',
@@ -142,8 +130,8 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
-        $roles = General::getEnumValues('users', 'role');
-        return view('dashboard.user.edit', compact('user', 'roles'));
+        // $roles = General::getEnumValues('users', 'role');
+        return view('dashboard.user.edit', compact('user'));
     }
 
     /**
@@ -163,14 +151,6 @@ class UserController extends Controller
             'lastname.string' => 'Họ phải là chuỗi kí tự',
             'lastname.required' => 'Họ không được bỏ trống',
             'lastname.max' => 'Họ không được vượt quá 100 kí tự',
-            'address.required' => 'Địa chỉ không được bỏ trống',
-            'address.string' => 'Địa chỉ phải là chuỗi kí tự',
-            'province.required' => 'Tỉnh không được bỏ trống',
-            'province.string' => 'Tỉnh phải là chuỗi kí tự',
-            'district.required' => 'Quận/huyện không được bỏ trống',
-            'district.string' => 'Quận/huyện phải là chuỗi kí tự',
-            'ward.required' => 'Phường/xã không được bỏ trống',
-            'ward.string' => 'Phường/xã phải là chuỗi kí tự',
             'email.required' => 'Email không được bỏ trống',
             'email.email' => 'Email không hợp lệ',
             'email.unique' => 'Email không có sẵn',
@@ -193,15 +173,17 @@ class UserController extends Controller
             'firstname' => 'required|string|max:100',
             'lastname' => 'required|string|max:100',
             'avatar' => 'nullable|string',
-            'address' => 'required|string',
-            'province' => 'required|string',
-            'district' => 'required|string',
-            'ward' => 'required|string',
-            'email' => 'required|email|unique:users',
             'telephone' => 'required|string|max:10',
             'role' => 'required|in:admin,employee,customer',
             'status' => 'required|in:active,inactive',
         ], $messages);
+
+        if ($request->input('email') != $user->email) {
+            $this->validate($request, [
+                'email' => 'required|email|unique:users',
+            ], $messages);
+        }
+
 
         $data = $request->all();
 
@@ -210,28 +192,6 @@ class UserController extends Controller
                 'password' => 'required|string',
                 'repassword' => 'required|string|same:password',
             ]);
-        }
-
-        if ($request->input('address')) {
-            $this->validate($request, [
-                'province' => 'required|string',
-                'district' => 'required|string',
-                'ward' => 'required|string',
-            ]);
-
-            $address = null;
-            if ($user->address) {
-                $address = Address::findOrFail($user->address_id);
-            } else {
-                $address = new Address();
-            }
-            $address->address = $data['address'];
-            $address->address = $data['address'];
-            $address->province_id = $data['province'];
-            $address->district_id = $data['district'];
-            $address->ward_id = $data['ward'];
-            $address->save();
-            $data['address_id'] = $address->id;
         }
 
         $data['password'] = Hash::make($request->password);

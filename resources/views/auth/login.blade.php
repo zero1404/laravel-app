@@ -12,7 +12,7 @@
                         <div class="text-center text-md-center mb-4 mt-md-0">
                             <h1 class="mb-0 h3">{{ __('Đăng Nhập') }}</h1>
                         </div>
-                        <form method="POST" action="{{ route('login') }}" class="mt-4">
+                        <form method="POST" action="{{ route('dashboard.handle.login') }}" class="mt-4">
                             @csrf
                             <!-- Form -->
                             <div class="form-group mb-4">

@@ -39,3 +39,12 @@ $breadcrumbs = [
   </x-Dashboard.Forms.FormEdit>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+  const selectParentField = d.querySelector('#inputParent_id');
+  if(selectParentField) {
+    const choices = new Choices(selectParentField); 
+  }
+</script>
+@endpush

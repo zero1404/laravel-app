@@ -27,6 +27,20 @@ $(document).ready(function () {
             }
         });
     });
+
+    const dataTableEl = d.getElementById("datatable");
+    if (dataTableEl) {
+        new simpleDatatables.DataTable(dataTableEl, {
+            labels: {
+                placeholder: "Tìm kiếm...",
+                perPage: "{select} mục trên mỗi trang",
+                noRows: "Danh sách trống",
+                noResults:
+                    "Không có kết quả nào phù hợp với truy vấn tìm kiếm của bạn",
+                info: "Hiển thị {start} - {end} trong tổng {rows} dòng", //
+            },
+        });
+    }
 });
 
 $("#inputProvince").change(function () {
