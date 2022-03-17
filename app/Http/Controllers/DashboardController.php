@@ -8,6 +8,13 @@ use App\Rules\MatchOldPassword;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Product;
+use App\Models\Order;
+use App\Models\Category;
+use App\Models\Coupon;
+use App\Models\Language;
+use App\Models\Publisher;
+use App\Models\Author;
 
 class DashboardController extends Controller
 {
@@ -17,6 +24,15 @@ class DashboardController extends Controller
 
     public function index()
     {
+        $count_product = Product::getCountActiveProduct();
+        $count_category = Category::getCountCategory();
+        $count_order = Order::getCountActiveOrder();
+        $count_user = User::getCountActiveUser();
+        $count_coupon = Coupon::getCountActiveVoucher();
+        $count_language = Language::getCountLanguage();
+        $count_author = Author::getCountAuthor();
+        $count_publisher = Publisher::getCountPublisher();
+
         $data = User::select(DB::raw("COUNT(*) as count"), DB::raw("DAYNAME(created_at) as day_name"), DB::raw("DAY(created_at) as day"))
             ->where('created_at', '>', Carbon::today()->subDay(6))
             ->groupBy('day_name', 'day')
@@ -27,7 +43,16 @@ class DashboardController extends Controller
         foreach ($data as $key => $value) {
             $users[++$key] = [$value->day_name, $value->count];
         }
-        return view('dashboard.home.index')->with('users', json_encode($users));
+        return view('dashboard.home.index', compact(
+            'count_product',
+            'count_category',
+            'count_order',
+            'count_user',
+            'count_coupon',
+            'count_publisher',
+            'count_language',
+            'count_author'
+        ))->with('users', json_encode($users));
     }
 
     public function fileManager()

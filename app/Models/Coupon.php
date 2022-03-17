@@ -13,7 +13,7 @@ class Coupon extends Model
 
     public static function getCountActiveVoucher()
     {
-        return Coupon::where('status', 'active')->where('time', '>', 0)->count();
+        return Coupon::where('status', 'active')->where('times', '>', 0)->count();
     }
 
     public static function deactivate($id)
