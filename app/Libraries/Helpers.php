@@ -6,6 +6,7 @@ use App\Models\Category;
 use Vanthao03596\HCVN\Models\Province;
 use Vanthao03596\HCVN\Models\District;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 
 class Helpers
 {
@@ -134,5 +135,10 @@ class Helpers
       }
     }
     return $discount_money;
+  }
+
+  public static function getUserAvatar($path)
+  {
+    return File::exists($path) ? asset($path) :  $path;
   }
 }

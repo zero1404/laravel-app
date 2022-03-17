@@ -1,5 +1,6 @@
 @extends('auth.layouts.app')
 @section('title', 'Đăng nhập')
+
 @section('content')
 <main>
     <!-- Section -->

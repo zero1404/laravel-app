@@ -53,20 +53,69 @@ $breadcrumbs = [
             </div>
         </div>
 
+        <div class="row">
+            <div class="col">
+                <x-Dashboard.Forms.InputDate name="Ngày sinh" property="birthday" value="" />
+            </div>
+            <div class="col">
+                <x-Dashboard.Forms.Select name="Giới tính" property="gender">
+                    <option value="male" {{ old('gender')=='male' ? 'selected' : '' }}>Nam</option>
+                    <option value="female" {{ old('gender')=='female' ? 'selected' : '' }}>Nữ</option>
+                </x-Dashboard.Forms.Select>
+            </div>
+        </div>
+
         <x-Dashboard.Forms.InputImage name="Ảnh đại diện" property="avatar" :value="old('avatar')" />
 
         <div class="row">
             <div class="col">
                 <x-Dashboard.Forms.Select name="Chức vụ" property="role">
-                    <option value="admin">Admin</option>
-                    <option value="employee">Nhân viên</option>
-                    <option value="customer">Khách hàng</option>
+                    <option value="admin" {{ old('role')=='admin' ? 'selected' : '' }}>Admin</option>
+                    <option value="employee" {{ old('role')=='employee' ? 'selected' : '' }}>Nhân viên</option>
+                    <option value="customer" {{ old('role')=='customer' ? 'selected' : '' }}>Khách hàng</option>
                 </x-Dashboard.Forms.Select>
             </div>
             <div class="col">
                 <x-Dashboard.Forms.Select name="Trạng thái" property="status">
                     <option value="active" {{ old('status')=='active' ? 'selected' : '' }}>Hoạt động</option>
                     <option value="inactive" {{ old('status')=='active' ? 'selected' : '' }}>Không hoạt động</option>
+                </x-Dashboard.Forms.Select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <x-Dashboard.Forms.Input name="Địa chỉ" property="address" type="text" placeholder="Nhập địa chỉ"
+                    value="{{ old('address') }}" />
+            </div>
+            <div class="col mt-2">
+                <x-Dashboard.Forms.Select name="Tỉnh" property="province">
+                    @foreach (Helpers::getAllProvince() as $province)
+                    <option value="{{ $province->id }}" {{ old('province')==$province->id ? 'selected' : '' }}>
+                        {{ $province->name_with_type }}</option>
+                    @endforeach
+                </x-Dashboard.Forms.Select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <x-Dashboard.Forms.Select name="Thành phố/quận" property="district">
+                    @if (old('province') && old('district'))
+                    @foreach (Helpers::getDistricts(old('province')) as $district)
+                    <option value="{{ $district->id }}" {{ $district->id == old('district') ? ' selected' : '' }}>
+                        {{ $district->name_with_type }}</option>
+                    @endforeach
+                    @endif
+                </x-Dashboard.Forms.Select>
+            </div>
+            <div class="col">
+                <x-Dashboard.Forms.Select name="Phường/Xã" property="ward">
+                    @if (old('province') && old('district') && old('ward'))
+                    @foreach (Helpers::getWards(old('district')) as $ward)
+                    <option value="{{ $ward->id }}" {{ $ward->id == old('ward') ? ' selected' : '' }}>
+                        {{ $ward->name_with_type }}</option>
+                    @endforeach
+                    @endif
                 </x-Dashboard.Forms.Select>
             </div>
         </div>

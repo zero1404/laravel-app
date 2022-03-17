@@ -18,12 +18,14 @@ class CreateUsersTable extends Migration
             $table->string('firstname', 100);
             $table->string('lastname', 100);
             $table->boolean('gender')->default(false);
-            $table->date('birthday')->nullable();
+            $table->timestamp('birthday')->nullable();
             $table->string('password');
             $table->string('avatar')->nullable();
             $table->string('telephone')->unique()->nullable();
             $table->string('email')->unique();
+            $table->unsignedBigInteger('address_id')->nullable();
             $table->timestamp('email_verified_at')->nullable();
+            $table->foreign('address_id')->references('id')->on('addresses');
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->enum('role', ['admin', 'employee', 'customer'])->default('customer');
             $table->rememberToken();

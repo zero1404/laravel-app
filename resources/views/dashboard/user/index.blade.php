@@ -16,7 +16,7 @@ $columns = [
 'id' => 'ID',
 'fullname' => 'Họ Tên',
 'email' => 'Email',
-'created_at' => 'Ngày Tạo',
+'gender' => 'Giới tính',
 'role' => 'Chức Vụ',
 'status' => 'Trạng Thái',
 'action' => '',
@@ -35,17 +35,14 @@ $columns = [
         </td>
         <td>
             <div class="d-flex align-items-center">
-                <img class="rounded-circle" src="        @if (File::exists($user->avatar))
-                        {{ asset($user->avatar) }}
-                    @else
-                        {{ $user->avatar }}
-                        @endif" style="max-width:50px" alt="Avatar">
+                <img class="rounded-circle" src="{{Helpers::getUserAvatar($user->avatar)}}" style="max-width:50px"
+                    alt="Avatar">
 
                 <span class="mx-2">{{ $user->fullname }}</span>
             </div>
         </td>
         <td>{{ $user->email }}</td>
-        <td>{{ $user->created_at ? $user->created_at->format('d/m/Y') : '' }}</td>
+        <td>{{ $user->gender ? 'Nam' : 'Nữ' }}</td>
         <td class="text-center">
             @if ($user->role == 'admin')
             <span class="badge badge-sm ms-1 bg-success">Admin</span>

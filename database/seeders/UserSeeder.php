@@ -18,14 +18,20 @@ class UserSeeder extends Seeder
     public function run()
     {
         DB::table('users')->insert([
-            ['firstname' => 'An',
+            [
+                'firstname' => 'An',
                 'lastname' => 'Nhật',
                 'avatar' => 'https://lh3.googleusercontent.com/a-/AOh14GgbTYnLp4THmULBL3hvWinMgGV7V0stfA_Jr8_izw=s96-c-rg-br100',
                 'email' => 'admin@gmail.com',
                 'password' => Hash::make('123123123'),
-            'created_at' => Carbon::now(), 
-            'updated_at' => Carbon::now()],
-    
+                'gender' => true,
+                'telephone' => '0901234567',
+                'birthday' => Carbon::parse('14-04-2000'),
+                'role' => 'admin',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ],
+
         ]);
     }
 }

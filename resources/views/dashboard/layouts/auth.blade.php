@@ -3,9 +3,9 @@
 @include('dashboard.layouts.head')
 
 <body>
-    <main class="py-4">
-        @yield('content')
-    </main>
+  <main class="py-4">
+    @yield('content')
+  </main>
 </body>
 
 </html>
