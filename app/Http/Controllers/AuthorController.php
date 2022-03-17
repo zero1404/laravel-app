@@ -72,7 +72,10 @@ class AuthorController extends Controller
      */
     public function show($id)
     {
-        $author = Author::findOrFail($id);
+        $author = Author::find($id);
+        if (!$author) {
+            return abort(404, 'Mã tác giả không tồn tại.');
+        }
         return view('dashboard.author.detail', compact('author'));
     }
 
@@ -85,11 +88,11 @@ class AuthorController extends Controller
     public function edit($id)
     {
         $author = Author::find($id);
-        if ($author) {
-            return view('dashboard.author.edit', compact('author'));
-        } else {
-            return view('dashboard.author.index')->with('error', 'Có lỗi xảy ra, vui lòng thử lại!');
+        if (!$author) {
+            return abort(404, 'Mã tác giả không tồn tại.');
         }
+
+        return view('dashboard.author.edit', compact('author'));
     }
 
     /**
@@ -102,6 +105,9 @@ class AuthorController extends Controller
     public function update(Request $request, $id)
     {
         $author = Author::find($id);
+        if (!$author) {
+            return abort(404, 'Mã tác giả không tồn tại.');
+        }
 
         $messages = [
             'firstname.required' => 'Tên không được bỏ trống',
@@ -140,18 +146,16 @@ class AuthorController extends Controller
     public function destroy($id)
     {
         $author = Author::find($id);
-        if ($author) {
-            $status = $author->delete();
-            if ($status) {
-                request()->session()->flash('success', 'Đã xoá tác giả thành công.');
-            } else {
-                request()->session()->flash('error', 'Có lỗi xảy ra, vui lòng thử lại!');
-            }
-            return redirect()->route('author.index');
+        if (!$author) {
+            return abort(404, 'Mã tác giả không tồn tại.');
+        }
+        $status = $author->delete();
+
+        if ($status) {
+            request()->session()->flash('success', 'Đã xoá tác giả thành công.');
         } else {
             request()->session()->flash('error', 'Có lỗi xảy ra, vui lòng thử lại!');
-            return redirect()->back();
         }
+        return redirect()->route('author.index');
     }
 }
-

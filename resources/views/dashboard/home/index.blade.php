@@ -51,9 +51,7 @@
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 {{-- pie chart --}}
 <script type="text/javascript">
-    var analytics = {!! $users !!};
-    console.log(analytics);
-  
+    const analytics = {!! $users !!};
         google.charts.load('current', {
             'packages': ['corechart']
         });
@@ -161,9 +159,8 @@
                                 ticks: {
                                     maxTicksLimit: 5,
                                     padding: 10,
-                                    // Include a dollar sign in the ticks
                                     callback: function(value, index, values) {
-                                        return number_format(value) + 'đ';
+                                        return formatCurrency(value)
                                     }
                                 },
                                 gridLines: {

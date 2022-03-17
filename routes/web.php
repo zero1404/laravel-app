@@ -46,7 +46,7 @@ Route::group(['as' => 'shop.'], function () {
 Route::get('/dashboard/login', 'LoginDashboardController@showLoginForm')->name('dashboard.login');
 Route::post('/dashboard/login', 'LoginDashboardController@login')->name('dashboard.handle.login');
 
-Route::group(['prefix' => '/dashboard', 'middleware' => ['auth']], function () {
+Route::group(['prefix' => '/dashboard', 'middleware' => ['auth', 'dashboard.access']], function () {
     Route::get('/', 'DashboardController@index')->name('dashboard.index');
     Route::get('/profile', 'DashboardController@showProfile')->name('dashboard.profile');
     Route::post('/profile', 'DashboardController@updateProfile')->name('dashboard.profile.update');

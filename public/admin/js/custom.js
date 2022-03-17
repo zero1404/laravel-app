@@ -1,18 +1,12 @@
 $(document).ready(function () {
-    // Auto close flash message;
-    setTimeout(function () {
-        $(".alert").slideUp();
-    }, 4000);
-
     $.ajaxSetup({
         headers: {
             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
         },
     });
 
-    $(".btnDelete").click(function (e) {
+    $(document).on("click", ".btnDelete", function (e) {
         const form = $(this).closest("form");
-        const dataID = $(this).data("id");
         e.preventDefault();
         Swal.fire({
             title: "Bạn có muốn xoá?",
@@ -29,6 +23,11 @@ $(document).ready(function () {
             }
         });
     });
+
+    // Auto close flash message;
+    setTimeout(function () {
+        $(".alert").slideUp();
+    }, 4000);
 
     const dataTableEl = d.getElementById("datatable");
     if (dataTableEl) {
@@ -47,9 +46,6 @@ $(document).ready(function () {
     $("#inputProvince").change(function () {
         const id = $(this).find("option:selected").val();
         $.ajax({
-            headers: {
-                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-            },
             type: "get",
             url: `${window.location.origin}/address/districts/${id}`,
             success: function (data) {
@@ -89,9 +85,6 @@ $(document).ready(function () {
     $("#inputDistrict").change(function () {
         const id = $(this).find("option:selected").val();
         $.ajax({
-            headers: {
-                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-            },
             type: "get",
             url: `${window.location.origin}/address/wards/${id}`,
             success: function (data) {

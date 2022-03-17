@@ -3,6 +3,8 @@
 use App\Models\Cart;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Coupon;
+use Carbon\Carbon;
 use Vanthao03596\HCVN\Models\Province;
 use Vanthao03596\HCVN\Models\District;
 use Illuminate\Support\Facades\Auth;
@@ -140,5 +142,12 @@ class Helpers
   public static function getUserAvatar($path)
   {
     return File::exists($path) ? asset($path) :  $path;
+  }
+
+  public static function isValidCoupon($coupon)
+  {
+    $now = Carbon::now();
+    $expiration_date = Carbon::createFromFormat('m/d/Y H:i:s', $coupon->expiration_date);
+    return !($coupon == null || ($coupon && $coupon->time == 0) || $coupon->status == 'inactive' || $now->gt($expiration_date));
   }
 }

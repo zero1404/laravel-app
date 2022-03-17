@@ -15,4 +15,13 @@ class Coupon extends Model
     {
         return Coupon::where('status', 'active')->where('time', '>', 0)->count();
     }
+
+    public static function deactivate($id)
+    {
+        $coupon = Coupon::find($id);
+        if ($coupon && $coupon->status == 'inactive') {
+            $coupon->status == 'inactive';
+            $coupon->save();
+        }
+    }
 }
