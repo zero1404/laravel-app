@@ -56,11 +56,13 @@ class AuthorController extends Controller
 
         $data = $request->all();
         $status = Author::create($data);
+
         if ($status) {
             request()->session()->flash('success', 'Tạo tác giả thành công.');
         } else {
             request()->session()->flash('error', 'Có lỗi xảy ra, vui lòng thử lại!');
         }
+
         return redirect()->route('author.index');
     }
 
@@ -73,9 +75,11 @@ class AuthorController extends Controller
     public function show($id)
     {
         $author = Author::find($id);
+
         if (!$author) {
             return abort(404, 'Mã tác giả không tồn tại.');
         }
+
         return view('dashboard.author.detail', compact('author'));
     }
 
@@ -88,6 +92,7 @@ class AuthorController extends Controller
     public function edit($id)
     {
         $author = Author::find($id);
+
         if (!$author) {
             return abort(404, 'Mã tác giả không tồn tại.');
         }
@@ -105,6 +110,7 @@ class AuthorController extends Controller
     public function update(Request $request, $id)
     {
         $author = Author::find($id);
+
         if (!$author) {
             return abort(404, 'Mã tác giả không tồn tại.');
         }
@@ -129,11 +135,13 @@ class AuthorController extends Controller
 
         $data = $request->all();
         $status = $author->fill($data)->save();
+
         if ($status) {
             request()->session()->flash('success', 'Cập nhật tác giả thành công.');
         } else {
             request()->session()->flash('error', 'Có lỗi xảy ra, vui lòng thử lại!');
         }
+
         return redirect()->route('author.index');
     }
 
@@ -146,16 +154,27 @@ class AuthorController extends Controller
     public function destroy($id)
     {
         $author = Author::find($id);
+
         if (!$author) {
             return abort(404, 'Mã tác giả không tồn tại.');
         }
-        $status = $author->delete();
 
-        if ($status) {
-            request()->session()->flash('success', 'Đã xoá tác giả thành công.');
-        } else {
-            request()->session()->flash('error', 'Có lỗi xảy ra, vui lòng thử lại!');
+        try {
+            $status = $author->delete();
+
+            if ($status) {
+                request()->session()->flash('success', 'Đã xoá tác giả thành công.');
+            } else {
+                request()->session()->flash('error', 'Có lỗi xảy ra, vui lòng thử lại!');
+            }
+        } catch (\Illuminate\Database\QueryException $ex) {
+            if ((int)$ex->errorInfo[0] === 23000) {
+                request()->session()->flash('error', 'Không thể xoá vì tồn tại ràng buộc khoá ngoại!');
+            } else {
+                request()->session()->flash('error', 'Có lỗi xảy ra, vui lòng thử lại!');
+            }
         }
+
         return redirect()->route('author.index');
     }
 }

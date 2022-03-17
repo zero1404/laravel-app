@@ -99,11 +99,13 @@ class ProductController extends Controller
 
         $data['slug'] = $slug;
         $status = Product::create($data);
+
         if ($status) {
             request()->session()->flash('success', 'Tạo sản phẩm thành công');
         } else {
             request()->session()->flash('error', 'Có lỗi xảy ra, vui lòng thử lại!');
         }
+
         return redirect()->route('product.index');
     }
 
@@ -115,7 +117,12 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        $product = Product::findOrFail($id);
+        $product = Product::find($id);
+
+        if (!$product) {
+            return abort(404, 'Mã sách không không tồn tại');
+        }
+
         return view('dashboard.product.detail', compact('product'));
     }
 
@@ -127,11 +134,17 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        $product = Product::findOrFail($id);
+        $product = Product::find($id);
+
+        if (!$product) {
+            return abort(404, 'Mã sách không không tồn tại');
+        }
+
         $categories = Category::getListByParent();
         $authors = Author::all();
         $languages = Language::all();
         $publishers = Publisher::all();
+
         return view('dashboard.product.edit', compact('product', 'categories', 'authors', 'languages', 'publishers'));
     }
 
@@ -144,7 +157,12 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $product = Product::findOrFail($id);
+        $product = Product::find($id);
+
+        if (!$product) {
+            return abort(404, 'Mã sách không không tồn tại');
+        }
+
         $messages = [
             'title.required' => 'Tiêu đề không được bỏ trống',
             'title.string' => 'Tiêu đề phải là chuỗi kí tự',
@@ -191,13 +209,16 @@ class ProductController extends Controller
             'author_id' => 'required|exists:authors,id',
             'publisher_id' => 'required|exists:publishers,id',
         ], $messages);
+
         $data = $request->all();
         $status = $product->fill($data)->save();
+
         if ($status) {
             request()->session()->flash('success', 'Cập nhật sản phẩm thành công');
         } else {
             request()->session()->flash('error', 'Có lỗi xảy ra, vui lòng thử lại!');
         }
+
         return redirect()->route('product.index');
     }
 
@@ -209,13 +230,27 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        $product = Product::findOrFail($id);
-        $status = $product->delete();
+        $product = Product::find($id);
 
-        if ($status) {
-            request()->session()->flash('success', 'Xoá sản phẩm thành công.');
-        } else {
-            request()->session()->flash('error', 'Có lỗi xảy ra, vui lòng thử lại!');
+        if (!$product) {
+            return abort(404, 'Mã sách không không tồn tại');
         }
+
+        try {
+            $status = $product->delete();
+            if ($status) {
+                request()->session()->flash('success', 'Xoá sản phẩm thành công.');
+            } else {
+                request()->session()->flash('error', 'Có lỗi xảy ra, vui lòng thử lại!');
+            }
+        } catch (\Illuminate\Database\QueryException $ex) {
+            if ((int)$ex->errorInfo[0] === 23000) {
+                request()->session()->flash('error', 'Không thể xoá vì tồn tại ràng buộc khoá ngoại!');
+            } else {
+                request()->session()->flash('error', 'Có lỗi xảy ra, vui lòng thử lại!');
+            }
+        }
+
+        return redirect()->route('product.index');
     }
 }

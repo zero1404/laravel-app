@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class CouponController extends Controller
 {
- /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -63,11 +63,13 @@ class CouponController extends Controller
 
         $data = $request->all();
         $status = Coupon::create($data);
+
         if ($status) {
             request()->session()->flash('success', 'Tạo mã giảm giá thành công.');
         } else {
             request()->session()->flash('error', 'Có lỗi xảy ra, vui lòng thử lại!');
         }
+
         return redirect()->route('coupon.index');
     }
 
@@ -79,7 +81,12 @@ class CouponController extends Controller
      */
     public function show($id)
     {
-        $coupon = Coupon::findOrFail($id);
+        $coupon = Coupon::find($id);
+
+        if (!$coupon) {
+            return abort(404, 'Mã giảm giá không tồn tại');
+        }
+
         return view('dashboard.coupon.detail', compact('coupon'));
     }
 
@@ -92,11 +99,12 @@ class CouponController extends Controller
     public function edit($id)
     {
         $coupon = Coupon::find($id);
-        if ($coupon) {
-            return view('dashboard.coupon.edit', compact('coupon'));
-        } else {
-            return view('dashboard.coupon.index')->with('error', 'Có lỗi xảy ra, vui lòng thử lại!');
+
+        if (!$coupon) {
+            return abort(404, 'Mã giảm giá không tồn tại');
         }
+
+        return view('dashboard.coupon.edit', compact('coupon'));
     }
 
     /**
@@ -109,6 +117,11 @@ class CouponController extends Controller
     public function update(Request $request, $id)
     {
         $coupon = Coupon::find($id);
+
+        if (!$coupon) {
+            return abort(404, 'Mã giảm giá không tồn tại');
+        }
+
         $messages = [
             'code.required' => 'Code không được bỏ trống',
             'code.string' => 'Code phải là chuỗi kí tự',
@@ -136,11 +149,13 @@ class CouponController extends Controller
 
         $data = $request->all();
         $status = $coupon->fill($data)->save();
+
         if ($status) {
             request()->session()->flash('success', 'Cập nhật mã giảm giá thành công.');
         } else {
             request()->session()->flash('error', 'Có lỗi xảy ra, vui lòng thử lại!');
         }
+
         return redirect()->route('coupon.index');
     }
 
@@ -153,17 +168,26 @@ class CouponController extends Controller
     public function destroy($id)
     {
         $coupon = Coupon::find($id);
-        if ($coupon) {
+
+        if (!$coupon) {
+            return abort(404, 'Mã giảm giá không tồn tại');
+        }
+
+        try {
             $status = $coupon->delete();
             if ($status) {
                 request()->session()->flash('success', 'Đã xoá mã giảm giá thành công.');
             } else {
                 request()->session()->flash('error', 'Có lỗi xảy ra, vui lòng thử lại!');
             }
-            return redirect()->route('coupon.index');
-        } else {
-            request()->session()->flash('error', 'Có lỗi xảy ra, vui lòng thử lại!');
-            return redirect()->back();
+        } catch (\Illuminate\Database\QueryException $ex) {
+            if ((int)$ex->errorInfo[0] === 23000) {
+                request()->session()->flash('error', 'Không thể xoá vì tồn tại ràng buộc khoá ngoại!');
+            } else {
+                request()->session()->flash('error', 'Có lỗi xảy ra, vui lòng thử lại!');
+            }
         }
+
+        return redirect()->route('coupon.index');
     }
 }

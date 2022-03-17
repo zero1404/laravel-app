@@ -76,9 +76,10 @@ class CategoryController extends Controller
     {
         $category = Category::find($id);
 
-        if ($category == null) {
-            return abort(404, 'Danh mục sản phẩm không tồn tại');
+        if (!$category) {
+            return abort(404, 'Mã danh mục sản phẩm không tồn tại');
         }
+
 
         return view('dashboard.category.detail', compact('category'));
     }
@@ -93,8 +94,8 @@ class CategoryController extends Controller
     {
         $category = Category::find($id);
 
-        if ($category == null) {
-            return abort(404, 'Danh mục sản phẩm không tồn tại');
+        if (!$category) {
+            return abort(404, 'Mã danh mục sản phẩm không tồn tại');
         }
 
         $parent_categories = Category::whereNull('parent_id')->orderBy('title', 'ASC')->get();
@@ -112,9 +113,10 @@ class CategoryController extends Controller
     {
         $category = Category::find($id);
 
-        if ($category == null) {
-            return abort(404, 'Danh mục sản phẩm không tồn tại');
+        if (!$category) {
+            return abort(404, 'Mã danh mục sản phẩm không tồn tại');
         }
+
 
         $messages = [
             'title.required' => 'Tiêu đề không được bỏ trống',
@@ -139,6 +141,7 @@ class CategoryController extends Controller
         } else {
             request()->session()->flash('error', 'Có lỗi xảy ra, vui lòng thử lại!');
         }
+
         return redirect()->route('category.index');
     }
 
@@ -152,9 +155,10 @@ class CategoryController extends Controller
     {
         $category = Category::find($id);
 
-        if ($category == null) {
-            return abort(404, 'Danh mục sản phẩm không tồn tại');
+        if (!$category) {
+            return abort(404, 'Mã danh mục sản phẩm không tồn tại');
         }
+
 
         $child_category = Category::where('parent_id', $id)->pluck('id');
 
@@ -176,6 +180,7 @@ class CategoryController extends Controller
                 request()->session()->flash('error', 'Có lỗi xảy ra, vui lòng thử lại!');
             }
         }
+
         return redirect()->route('category.index');
     }
 }

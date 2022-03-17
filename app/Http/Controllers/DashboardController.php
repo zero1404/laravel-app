@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use App\Rules\MatchOldPassword;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\User;
@@ -68,13 +68,7 @@ class DashboardController extends Controller
         $this->validate(
             $request,
             [
-                'oldpassword' => [
-                    'required', function ($attribute, $value, $fail) {
-                        if (!Hash::check($value, Auth::user()->password)) {
-                            $fail('Mật khẩu hiện tại không chính xác');
-                        }
-                    },
-                ],
+                'oldpassword' => ['required', 'string', new MatchOldPassword],
                 'password' => 'required|string',
                 'repassword' => 'required|string|same:password',
             ],

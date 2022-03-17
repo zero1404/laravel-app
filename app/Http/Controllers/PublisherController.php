@@ -52,11 +52,13 @@ class PublisherController extends Controller
 
         $data = $request->all();
         $status = Publisher::create($data);
+
         if ($status) {
             request()->session()->flash('success', 'Tạo nhà xuất bản thành công.');
         } else {
             request()->session()->flash('error', 'Có lỗi xảy ra, vui lòng thử lại!');
         }
+        
         return redirect()->route('publisher.index');
     }
 
@@ -68,7 +70,12 @@ class PublisherController extends Controller
      */
     public function show($id)
     {
-        $publisher = Publisher::findOrFail($id);
+        $publisher = Publisher::find($id);
+
+        if (!$publisher) {
+            return abort(404, 'Mã nhà xuất bản không tồn tại');
+        }
+
         return view('dashboard.publisher.detail', compact('publisher'));
     }
 
@@ -81,11 +88,12 @@ class PublisherController extends Controller
     public function edit($id)
     {
         $publisher = Publisher::find($id);
-        if ($publisher) {
-            return view('dashboard.publisher.edit', compact('publisher'));
-        } else {
-            return view('dashboard.publisher.index')->with('error', 'Có lỗi xảy ra, vui lòng thử lại!');
+
+        if (!$publisher) {
+            return abort(404, 'Mã nhà xuất bản không tồn tại');
         }
+
+        return view('dashboard.publisher.edit', compact('publisher'));
     }
 
     /**
@@ -98,6 +106,11 @@ class PublisherController extends Controller
     public function update(Request $request, $id)
     {
         $publisher = Publisher::find($id);
+
+        if (!$publisher) {
+            return abort(404, 'Mã nhà xuất bản không tồn tại');
+        }
+
         $messages = [
             'name.required' => 'Tên không được bỏ trống',
             'name.string' => 'Tên phải là chuỗi kí tự',
@@ -113,11 +126,13 @@ class PublisherController extends Controller
 
         $data = $request->all();
         $status = $publisher->fill($data)->save();
+
         if ($status) {
             request()->session()->flash('success', 'Cập nhật nhà xuất bản thành công.');
         } else {
             request()->session()->flash('error', 'Có lỗi xảy ra, vui lòng thử lại!');
         }
+
         return redirect()->route('publisher.index');
     }
 
@@ -130,17 +145,26 @@ class PublisherController extends Controller
     public function destroy($id)
     {
         $publisher = Publisher::find($id);
-        if ($publisher) {
+
+        if (!$publisher) {
+            return abort(404, 'Mã nhà xuất bản không tồn tại');
+        }
+
+        try {
             $status = $publisher->delete();
             if ($status) {
                 request()->session()->flash('success', 'Đã xoá nhà xuất bản thành công.');
             } else {
                 request()->session()->flash('error', 'Có lỗi xảy ra, vui lòng thử lại!');
             }
-            return redirect()->route('publisher.index');
-        } else {
-            request()->session()->flash('error', 'Có lỗi xảy ra, vui lòng thử lại!');
-            return redirect()->back();
+        } catch (\Illuminate\Database\QueryException $ex) {
+            if ((int)$ex->errorInfo[0] === 23000) {
+                request()->session()->flash('error', 'Không thể xoá vì tồn tại ràng buộc khoá ngoại!');
+            } else {
+                request()->session()->flash('error', 'Có lỗi xảy ra, vui lòng thử lại!');
+            }
         }
+
+        return redirect()->route('publisher.index');
     }
 }

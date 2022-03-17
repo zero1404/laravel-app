@@ -133,8 +133,8 @@ class UserController extends Controller
     {
         $user = User::find($id);
 
-        if ($user == null) {
-            return abort(404, 'Tài khoản không tồn tại');
+        if (!$user) {
+            return abort(404, 'Mã tài khoản không tồn tại');
         }
 
         return view('dashboard.user.detail', compact('user'));
@@ -150,7 +150,7 @@ class UserController extends Controller
     {
         $user = User::find($id);
 
-        if ($user == null) {
+        if (!$user) {
             return abort(404, 'Tài khoản không tồn tại');
         }
 
@@ -168,8 +168,8 @@ class UserController extends Controller
     {
         $user = User::find($id);
 
-        if ($user == null) {
-            return abort(404, 'Tài khoản không tồn tại');
+        if (!$user) {
+            return abort(404, 'Mã tài khoản không tồn tại');
         }
 
         $messages = [
@@ -278,13 +278,27 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $user = User::findorFail($id);
-        $status = $user->delete();
-        if ($status) {
-            request()->session()->flash('success', 'Xoá tài khoản thành công.');
-        } else {
-            request()->session()->flash('error', 'Có lỗi xảy ra, vui lòng thử lại!');
+        $user = User::find($id);
+
+        if (!$user) {
+            return abort(404, 'Mã tài khoản không tồn tại');
         }
+
+        try {
+            $status = $user->delete();
+            if ($status) {
+                request()->session()->flash('success', 'Xoá tài khoản thành công.');
+            } else {
+                request()->session()->flash('error', 'Có lỗi xảy ra, vui lòng thử lại!');
+            }
+        } catch (\Illuminate\Database\QueryException $ex) {
+            if ((int)$ex->errorInfo[0] === 23000) {
+                request()->session()->flash('error', 'Không thể xoá vì tồn tại ràng buộc khoá ngoại!');
+            } else {
+                request()->session()->flash('error', 'Có lỗi xảy ra, vui lòng thử lại!');
+            }
+        }
+
         return redirect()->route('user.index');
     }
 }

@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class LanguageController extends Controller
 {
-     /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -48,11 +48,13 @@ class LanguageController extends Controller
 
         $data = $request->all();
         $status = Language::create($data);
+
         if ($status) {
             request()->session()->flash('success', 'Tạo ngôn ngữ giá thành công.');
         } else {
             request()->session()->flash('error', 'Có lỗi xảy ra, vui lòng thử lại!');
         }
+
         return redirect()->route('language.index');
     }
 
@@ -64,7 +66,12 @@ class LanguageController extends Controller
      */
     public function show($id)
     {
-        $language = Language::findOrFail($id);
+        $language = Language::find($id);
+
+        if (!$language) {
+            return abort(404, 'Mã ngôn ngữ không tồn tại');
+        }
+
         return view('dashboard.language.detail', compact('language'));
     }
 
@@ -76,7 +83,12 @@ class LanguageController extends Controller
      */
     public function edit($id)
     {
-        $language = Language::findOrFail($id);
+        $language = Language::find($id);
+
+        if (!$language) {
+            return abort(404, 'Mã ngôn ngữ không tồn tại');
+        }
+
         return view('dashboard.language.edit', compact('language'));
     }
 
@@ -91,6 +103,10 @@ class LanguageController extends Controller
     {
         $language = Language::find($id);
 
+        if (!$language) {
+            return abort(404, 'Mã ngôn ngữ không tồn tại');
+        }
+
         $messages = [
             'name.required' => 'Tên không được bỏ trống',
             'name.string' => 'Tên phải là chuỗi kí tự',
@@ -103,11 +119,13 @@ class LanguageController extends Controller
 
         $data = $request->all();
         $status = $language->fill($data)->save();
+
         if ($status) {
             request()->session()->flash('success', 'Cập nhật ngôn ngữ thành công.');
         } else {
             request()->session()->flash('error', 'Có lỗi xảy ra, vui lòng thử lại!');
         }
+
         return redirect()->route('language.index');
     }
 
@@ -120,17 +138,26 @@ class LanguageController extends Controller
     public function destroy($id)
     {
         $language = Language::find($id);
-        if ($language) {
+
+        if (!$language) {
+            return abort(404, 'Mã ngôn ngữ không tồn tại');
+        }
+
+        try {
             $status = $language->delete();
             if ($status) {
                 request()->session()->flash('success', 'Đã xoá ngôn ngữ thành công.');
             } else {
                 request()->session()->flash('error', 'Có lỗi xảy ra, vui lòng thử lại!');
             }
-            return redirect()->route('language.index');
-        } else {
-            request()->session()->flash('error', 'Có lỗi xảy ra, vui lòng thử lại!');
-            return redirect()->back();
+        } catch (\Illuminate\Database\QueryException $ex) {
+            if ((int)$ex->errorInfo[0] === 23000) {
+                request()->session()->flash('error', 'Không thể xoá vì tồn tại ràng buộc khoá ngoại!');
+            } else {
+                request()->session()->flash('error', 'Có lỗi xảy ra, vui lòng thử lại!');
+            }
         }
+
+        return redirect()->route('language.index');
     }
 }
