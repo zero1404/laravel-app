@@ -16,18 +16,19 @@
     <div class="user-card d-flex d-md-none align-items-center justify-content-between justify-content-md-center pb-4">
       <div class="d-flex align-items-center">
         <div class="avatar-lg me-4">
-          <img src="../../assets/img/team/profile-picture-3.jpg" class="card-img-top rounded-circle border-white"
-            alt="Bonnie Green">
+          <img src="{{ Helpers::getUserAvatar(auth()->user()->avatar)}}"
+            class="card-img-top rounded-circle border-white" alt="{{ auth()->user()->fullname }}">
         </div>
         <div class="d-block">
-          <h2 class="h5 mb-3">Hi, Jane</h2>
-          <a href="../../pages/examples/sign-in.html" class="btn btn-secondary btn-sm d-inline-flex align-items-center">
+          <h2 class="h5 mb-3">{{ auth()->user()->fullname }}</h2>
+          <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#logoutModal"
+            class="btn btn-secondary btn-sm d-inline-flex align-items-center text-white">
             <svg class="icon icon-xxs me-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
             </svg>
-            Sign Out
+            Đăng Xuất
           </a>
         </div>
       </div>
@@ -46,7 +47,7 @@
 
     <ul class="nav flex-column pt-3 pt-md-0">
       <li class="nav-item">
-        <a href="../../index.html" class="nav-link d-flex align-items-center">
+        <a href="{{ route('dashboard.index') }}" class="nav-link d-flex align-items-center">
           <span class="sidebar-icon">
             <img src="{{ asset('admin/img/brand/light.svg') }}" height="20" width="20" alt="Volt Logo">
           </span>

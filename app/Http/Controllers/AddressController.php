@@ -15,26 +15,32 @@ class AddressController extends Controller
         if ($request->ajax()) {
             return response()->json(['provinces' => $provinces], 200);
         }
-        return response()->json(['message' => 'Có lỗi xảy ra', 'type' => 'request'], 400);
+        return abort(404);
     }
 
     public function getDistricts(Request $request, $id)
     {
-        $province = Province::findOrFail($id);
-        $districts = $province->districts;
         if ($request->ajax()) {
-            return response()->json(['districts' => $districts], 200);
+            $province = Province::find($id);
+            if ($province) {
+                $districts = $province->districts;
+                return response()->json(['districts' => $districts], 200);
+            }
+            return response()->json(['message' => 'Có lỗi xảy ra', 'type' => 'request'], 400);
         }
-        return response()->json(['message' => 'Có lỗi xảy ra', 'type' => 'request'], 400);
+        return abort(404);
     }
 
     public function getWards(Request $request, $id)
     {
-        $district = District::findOrFail($id);
-        $wards = $district->wards;
         if ($request->ajax()) {
-            return response()->json(['wards' => $wards], 200);
+            $district = District::find($id);
+            if ($district) {
+                $wards = $district->wards;
+                return response()->json(['wards' => $wards], 200);
+            }
+            return response()->json(['message' => 'Có lỗi xảy ra', 'type' => 'request'], 400);
         }
-        return response()->json(['message' => 'Có lỗi xảy ra', 'type' => 'request'], 400);
+        return abort(404);
     }
 }

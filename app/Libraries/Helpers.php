@@ -150,4 +150,12 @@ class Helpers
     $expiration_date = Carbon::createFromFormat('m/d/Y H:i:s', $coupon->expiration_date);
     return !($coupon == null || ($coupon && $coupon->time == 0) || $coupon->status == 'inactive' || $now->gt($expiration_date));
   }
+
+  public function formatTimeNotify($time)
+  {
+    Carbon::setLocale('vi');
+    $data = Carbon::create($time);
+    $now = Carbon::now();
+    return $data->diffForHumans($now);
+  }
 }

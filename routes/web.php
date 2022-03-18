@@ -55,6 +55,14 @@ Route::group(['prefix' => '/dashboard', 'middleware' => ['auth', 'dashboard.acce
     Route::post('/profile/avatar', 'DashboardController@updateAvatar')->name('dashboard.profile.update-avatar');
     Route::get('/file-manager', 'DashboardController@fileManager')->name('dashboard.file-manager');
     Route::get('/income', 'OrderController@incomeChart')->name('product.order.income');
+
+    // Notification
+    Route::get('/notifications', 'NotificationController@index')->name('dashboard.notification.index');
+    Route::get('/notification/{id}', 'NotificationController@show')->name('dashboard.notification.show');
+    Route::delete('/notification/{id}', 'NotificationController@delete')->name('dashboard.notification.delete');
+    Route::post('/notification/mark-as-read', 'NotificationController@markAsRead')->name('dashboard.notification.mark-as-read');
+    Route::post('/notification/destroy', 'NotificationController@destroy')->name('dashboard.notification.destroy');
+
     Route::resources([
         'category' => 'CategoryController',
         'order' => 'OrderController',
