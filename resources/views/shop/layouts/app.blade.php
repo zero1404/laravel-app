@@ -12,7 +12,6 @@
   <!-- Start content -->
   @yield('content')
   <!-- End content -->
-
   <!-- Start footer -->
   @include('shop.layouts.footer')
   <!-- End footer -->

@@ -1,5 +1,5 @@
 @extends('shop.layouts.app')
-@section('title', 'Trang Chủ')
+@section('title', 'Kết quả tìm kiếm')
 
 @section('content')
 <main>

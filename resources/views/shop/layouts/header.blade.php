@@ -69,11 +69,16 @@
                         <li><a href="#"><span class="icon_heart_alt"></span>
                                 <div class="tip">2</div>
                             </a></li>
-                        <li><a href="#"><span class="icon_bag_alt"></span>
-                                <div class="tip">2</div>
+                        <li><a href="/cart"><span class="icon_bag_alt"></span>
+                            @if (session('cart'))
+                                <div class="tip">{{ count($cart) }}</div>
+                            @else
+                                <div class="tip">0</div>
+                            @endif
+                                
                             </a></li>
                     </ul>
-                    <div class="header__right__auth">
+                    <div style="padding-left: 20px;" class="header__right__auth">
                         <a href="#">Login</a>
                         <a href="#">Register</a>
                     </div>

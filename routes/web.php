@@ -22,12 +22,18 @@ Route::group(['as' => 'shop.'], function () {
     Route::get('/products', 'HomeController@showProducts')->name('product-list');
     Route::get('/products/{slug}', 'HomeController@productDetail')->name('detail.book');
 
+    Route::get('cart', 'HomeController@cart')->name('cart');
+    Route::get('add-to-cart/{id}', 'HomeController@addToCart')->name('add.to.cart');
+    Route::patch('update-cart', 'HomeController@updateCart')->name('update.cart');
+    Route::delete('remove-from-cart', 'HomeController@removeCart')->name('remove.from.cart');
     // Route::get('/search',['uses' => 'SearchController@getSearch','as' => 'search']);
     Route::group(['prefix' => '/auth'], function () {
         Route::get('/login', 'HomeController@showLogin')->name('login');
         Route::get('/register', 'HomeController@showRegister')->name('register');
     });
 
+    //cart
+    
 
     Route::group(['middleware' => ['auth']], function () {
     });

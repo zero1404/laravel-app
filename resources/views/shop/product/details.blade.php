@@ -1,5 +1,5 @@
 @extends('shop.layouts.app')
-@section('title', 'Sanr phẩm')
+@section('title', 'Chi tiết sản phẩm')
 
 @section('content')
 <main>
@@ -38,7 +38,7 @@
                                     <input type="text" value="1">
                                 </div>
                             </div>
-                            <a href="#" class="cart-btn"><span class="icon_bag_alt"></span> Add to cart</a>
+                            <a href="../add-to-cart/{{ $product->id }}" class="cart-btn"><span class="icon_bag_alt"></span> Add to cart</a>
                             
                         </div>
                         <div class="product__details__widget">
