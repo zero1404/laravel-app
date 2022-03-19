@@ -139,25 +139,27 @@ class OrderController extends Controller
 
     public function incomeChart(Request $request)
     {
-        $year = Carbon::now()->year;
-        $items = Order::with(['items'])->whereYear('created_at', $year)->where('status', 'done')->get()
-            ->groupBy(function ($d) {
-                return Carbon::parse($d->created_at)->format('m');
-            });
+        if ($request->ajax()) {
+            $year = Carbon::now()->year;
+            $items = Order::with(['items'])->whereYear('created_at', $year)->where('status', 'done')->get()
+                ->groupBy(function ($d) {
+                    return Carbon::parse($d->created_at)->format('m');
+                });
 
-        $result = [];
-        foreach ($items as $month => $item_collections) {
-            foreach ($item_collections as $item) {
-                $amount = $item->items->sum('price');
-                $m = intval($month);
-                isset($result[$m]) ? $result[$m] += $amount : $result[$m] = $amount;
+            $result = [];
+            foreach ($items as $month => $item_collections) {
+                foreach ($item_collections as $item) {
+                    $amount = $item->items->sum('price');
+                    $m = intval($month);
+                    isset($result[$m]) ? $result[$m] += $amount : $result[$m] = $amount;
+                }
             }
+            $data = [];
+            for ($i = 1; $i <= 12; $i++) {
+                $monthName = date('F', mktime(0, 0, 0, $i, 1));
+                $data[$monthName] = (!empty($result[$i])) ? number_format((float)($result[$i]), 2, '.', '') : 0.0;
+            }
+            return $data;
         }
-        $data = [];
-        for ($i = 1; $i <= 12; $i++) {
-            $monthName = date('F', mktime(0, 0, 0, $i, 1));
-            $data[$monthName] = (!empty($result[$i])) ? number_format((float)($result[$i]), 2, '.', '') : 0.0;
-        }
-        return $data;
     }
 }

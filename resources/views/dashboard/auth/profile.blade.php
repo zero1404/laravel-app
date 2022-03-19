@@ -21,7 +21,8 @@ $breadcrumbs = [
   <div class="col-12 col-xl-8">
     <div class="card card-body border-0 shadow mb-4">
       <h2 class="h5 mb-4">Thông tin chung</h2>
-      <form>
+      <form method="post" action="">
+        @csrf
         <div class="row">
           <div class="col-md-6">
             <x-Dashboard.Forms.Input name="Họ" property="lastname" placeholder="Nhập họ"
@@ -34,10 +35,11 @@ $breadcrumbs = [
           </div>
         </div>
         <div class="row align-items-center">
-          <div class="col-md-6 mb-3">
-            <x-Dashboard.Forms.InputDate name="Ngày sinh" property="birthday" value="{{ auth()->user()->birthday }}" />
+          <div class="col-md-6">
+            <x-Dashboard.Forms.InputDate name="Ngày sinh" property="birthday"
+              value="{{ Helpers::formatDate(auth()->user()->birthday) }}" />
           </div>
-          <div class="col-md-6 mb-3">
+          <div class="col-md-6">
             <x-Dashboard.Forms.Select name="Giới tính" property="gender">
               <option value="male" {{ auth()->user()->gender ? 'selected' : ''}}>Nam</option>
               <option value="female" {{ !auth()->user()->gender ? 'selected' : ''}}>Nữ</option>
@@ -49,97 +51,53 @@ $breadcrumbs = [
             <x-Dashboard.Forms.Input name="Email" type="email" property="email" placeholder="Nhập email"
               value="{{ auth()->user()->email }}" />
           </div>
-          <div class="col-md-6 mb-3">
+          <div class="col-md-6">
             <x-Dashboard.Forms.Input name="Số điện thoại" type="phone" property="telephone"
               placeholder="Nhập số điện thoại" value="{{ auth()->user()->telephone }}" />
           </div>
         </div>
-        <h2 class="h5 my-4">Địa chỉ</h2>
+        <h2 class="h5 my-3">Địa chỉ</h2>
         <div class="row">
-          <div class="col-sm-9 mb-3">
-            <x-Dashboard.Forms.Input name="Địa chỉ" property="address" placeholder="Nhập email"
-              value="{{ auth()->user()->email }}" />
-          </div>
-          <div class="col-sm-3 mb-3">
-            <div class="form-group">
-              <label for="number">Number</label>
-              <input class="form-control" id="number" type="number" placeholder="No." required>
-            </div>
+          <div class="col-sm-12">
+            <x-Dashboard.Forms.Input name="Địa chỉ" property="address" type="text" placeholder="Nhập địa chỉ"
+              value="{{ auth()->user()->address ? auth()->user()->address->address : '' }}" />
           </div>
         </div>
         <div class="row">
-          <div class="col-sm-4 mb-3">
-            <div class="form-group">
-              <label for="city">City</label>
-              <input class="form-control" id="city" type="text" placeholder="City" required>
-            </div>
-          </div>
-          <div class="col-sm-4 mb-3">
-            <label for="state">State</label>
-            <select class="form-select w-100 mb-0" id="state" name="state" aria-label="State select example">
-              <option selected>State</option>
-              <option value="AL">Alabama</option>
-              <option value="AK">Alaska</option>
-              <option value="AZ">Arizona</option>
-              <option value="AR">Arkansas</option>
-              <option value="CA">California</option>
-              <option value="CO">Colorado</option>
-              <option value="CT">Connecticut</option>
-              <option value="DE">Delaware</option>
-              <option value="DC">District Of Columbia</option>
-              <option value="FL">Florida</option>
-              <option value="GA">Georgia</option>
-              <option value="HI">Hawaii</option>
-              <option value="ID">Idaho</option>
-              <option value="IL">Illinois</option>
-              <option value="IN">Indiana</option>
-              <option value="IA">Iowa</option>
-              <option value="KS">Kansas</option>
-              <option value="KY">Kentucky</option>
-              <option value="LA">Louisiana</option>
-              <option value="ME">Maine</option>
-              <option value="MD">Maryland</option>
-              <option value="MA">Massachusetts</option>
-              <option value="MI">Michigan</option>
-              <option value="MN">Minnesota</option>
-              <option value="MS">Mississippi</option>
-              <option value="MO">Missouri</option>
-              <option value="MT">Montana</option>
-              <option value="NE">Nebraska</option>
-              <option value="NV">Nevada</option>
-              <option value="NH">New Hampshire</option>
-              <option value="NJ">New Jersey</option>
-              <option value="NM">New Mexico</option>
-              <option value="NY">New York</option>
-              <option value="NC">North Carolina</option>
-              <option value="ND">North Dakota</option>
-              <option value="OH">Ohio</option>
-              <option value="OK">Oklahoma</option>
-              <option value="OR">Oregon</option>
-              <option value="PA">Pennsylvania</option>
-              <option value="RI">Rhode Island</option>
-              <option value="SC">South Carolina</option>
-              <option value="SD">South Dakota</option>
-              <option value="TN">Tennessee</option>
-              <option value="TX">Texas</option>
-              <option value="UT">Utah</option>
-              <option value="VT">Vermont</option>
-              <option value="VA">Virginia</option>
-              <option value="WA">Washington</option>
-              <option value="WV">West Virginia</option>
-              <option value="WI">Wisconsin</option>
-              <option value="WY">Wyoming</option>
-            </select>
+          <div class="col-sm-4">
+            <x-Dashboard.Forms.Select name="Tỉnh" property="province">
+              @foreach (Helpers::getAllProvince() as $province)
+              <option value="{{ $province->id }}" {{ auth()->user()->address && auth()->user()->address->province->id ==
+                $province->id ? '
+                selected' : '' }}>
+                {{ $province->name_with_type }}</option>
+              @endforeach
+            </x-Dashboard.Forms.Select>
           </div>
           <div class="col-sm-4">
-            <div class="form-group">
-              <label for="zip">ZIP</label>
-              <input class="form-control" id="zip" type="tel" placeholder="ZIP" required>
-            </div>
+            <x-Dashboard.Forms.Select name="Thành phố/quận" property="district">
+              @if (auth()->user()->address)
+              @foreach (Helpers::getDistricts(auth()->user()->address->province->id) as $district)
+              <option value="{{ $district->id }}" {{ $district->id == auth()->user()->address->district->id ? '
+                selected' : '' }}>
+                {{ $district->name_with_type }}</option>
+              @endforeach
+              @endif
+            </x-Dashboard.Forms.Select>
+          </div>
+          <div class="col-sm-4">
+            <x-Dashboard.Forms.Select name="Phường/Xã" property="ward">
+              @if (auth()->user()->address)
+              @foreach (Helpers::getWards(auth()->user()->address->district->id) as $ward)
+              <option value="{{ $ward->id }}" {{ $ward->id == auth()->user()->address->ward->id ? ' selected' : '' }}>
+                {{ $ward->name_with_type }}</option>
+              @endforeach
+              @endif
+            </x-Dashboard.Forms.Select>
           </div>
         </div>
         <div class="mt-3">
-          <button class="btn btn-gray-800 mt-2 animate-up-2" type="submit">Save all</button>
+          <button class="btn btn-gray-800 mt-2 animate-up-2" type="submit">Cập nhật</button>
         </div>
       </form>
     </div>

@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\File;
 class Helpers
 {
 
+  public static function formatDate($date)
+  {
+    return Carbon::parse($date)->format('d/m/Y');
+  }
+
   public static function formatCurrency($currency)
   {
     return number_format($currency, 0, ',', '.');
