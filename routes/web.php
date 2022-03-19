@@ -13,11 +13,16 @@ use Illuminate\Support\Facades\Auth;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 Route::group(['as' => 'shop.'], function () {
     Route::get('/', 'HomeController@index')->name('home');
     Route::get('/about', 'HomeController@showAbout')->name('about');
 
+    Route::get('/search', 'HomeController@search')->name('search');
+
+    Route::get('/products', 'HomeController@showProducts')->name('product-list');
+    Route::get('/products/{slug}', 'HomeController@productDetail')->name('detail.book');
+
+    // Route::get('/search',['uses' => 'SearchController@getSearch','as' => 'search']);
     Route::group(['prefix' => '/auth'], function () {
         Route::get('/login', 'HomeController@showLogin')->name('login');
         Route::get('/register', 'HomeController@showRegister')->name('register');
