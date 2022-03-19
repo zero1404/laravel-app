@@ -20,7 +20,7 @@ class Helpers
 
   public static function formatCurrency($currency)
   {
-    return number_format($currency, 0, ',', '.');
+    return number_format($currency, 0, ',', '.') . 'đ';
   }
 
   public static function getListMenuCategory()
@@ -152,8 +152,8 @@ class Helpers
   public static function isValidCoupon($coupon)
   {
     $now = Carbon::now();
-    $expiration_date = Carbon::createFromFormat('m/d/Y H:i:s', $coupon->expiration_date);
-    return !($coupon == null || ($coupon && $coupon->time == 0) || $coupon->status == 'inactive' || $now->gt($expiration_date));
+    $expiration_date = Carbon::parse($coupon->expiration_date);
+    return !($coupon == null || ($coupon->times == 0) || $coupon->status == 'inactive' || $now->gt($expiration_date));
   }
 
   public function formatTimeNotify($time)

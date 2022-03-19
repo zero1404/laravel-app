@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
+Route::get('/', 'HomeController@index')->name('home');
+
 Route::group(['as' => 'api.'], function () {
     // Address
     Route::get('/address/provinces', 'AddressController@getProvinces')->name('get-list-provinces');
@@ -23,7 +25,6 @@ Route::group(['as' => 'api.'], function () {
     Route::group(['middleware' => ['auth']], function () {
         // Cart
         Route::post('/apply-coupon', 'HomeController@applyCoupon')->name('apply-coupon');
-        Route::get('/cart', 'CartController@getListCart')->name('cart');
         Route::get('/cart/{id}', 'CartController@addToCart')->name('add-cart');
         Route::put('/cart/{id}', 'CartController@updateCart')->name('update-cart');
         Route::delete('/cart/{id}', 'CartController@removeCart')->name('remove-cart');
@@ -32,14 +33,51 @@ Route::group(['as' => 'api.'], function () {
 
 Route::group(['as' => 'shop.'], function () {
     Route::get('/', 'HomeController@index')->name('home');
+    Route::get('/contact', 'HomeController@contact')->name('contact');
     Route::get('/about', 'HomeController@showAbout')->name('about');
+
+    //Category
+    Route::get('/category/{slug}', 'HomeController@productByCategory')->name('product-by-category');
+
+    // Product
+    Route::get('/product', 'HomeController@productList')->name('product-list');
+    Route::get('/search', 'HomeController@productSearch')->name('product-search');
+    Route::get('/product/{slug}', 'HomeController@productDetail')->name('product-detail');
+
+    // User
+    Route::get('/user/login', 'HomeController@login')->name('user-login');
+    Route::post('/user/login', 'Auth\LoginController@login');
+    Route::post('/user/logout', 'Auth\LoginController@logout')->name('logout');
+    Route::get('user/register', 'HomeController@register')->name('user-register');
+    Route::post('user/register', 'Auth\RegisterController@register');
+
     Route::group(['prefix' => '/auth'], function () {
         Route::get('/login', 'HomeController@showLogin')->name('login');
         Route::get('/register', 'HomeController@showRegister')->name('register');
     });
 
-
     Route::group(['middleware' => ['auth']], function () {
+        // Cart
+        Route::get('/cart', 'CartController@getListCart')->name('cart');
+
+        // Profile
+        Route::get('/profile', 'HomeController@profile')->name('profile');
+        Route::get('/profile/change-password', 'HomeController@changePassword')->name('change-password-profile');
+        Route::post('/profile/update', 'HomeController@updateProfile')->name('update-profile');
+        Route::post('/profile/update-password', 'HomeController@updatePassword')->name('update-profile-password');
+        Route::post('/profile/update-avatar', 'HomeController@updateAvatar')->name('update-profile-avatar');
+
+        // Checkout
+        Route::get('/checkout', 'HomeController@checkout')->name('checkout');
+
+        // Order
+        Route::post('/order', 'HomeController@order')->name('order');
+        Route::get('/order', 'HomeController@getOrderList')->name('list-ordered');
+        Route::get('/order-success', 'HomeController@orderSuccess')->name('order-success');
+        Route::get('/order/{id}', 'HomeController@getDetailOrder')->name('detail-ordered');
+
+        // Apply Coupon
+        Route::post('/apply-coupon', 'HomeController@applyCoupon')->name('apply-coupon');
     });
 });
 

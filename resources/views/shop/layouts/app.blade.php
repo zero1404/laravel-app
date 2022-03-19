@@ -3,21 +3,12 @@
 
 @include('shop.layouts.head')
 
-<body>
+<body class="goto-here">
+    @include('shop.layouts.header')
 
-  <!-- Start header -->
-  @include('shop.layouts.header')
-  <!-- End header -->
+    @yield('content')
 
-  <!-- Start content -->
-  @yield('content')
-  <!-- End content -->
-
-  <!-- Start footer -->
-  @include('shop.layouts.footer')
-  <!-- End footer -->
-
-  @include('shop.layouts.scripts')
+    @include('shop.layouts.footer')
 </body>
 
 </html>

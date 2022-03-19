@@ -10,22 +10,27 @@ $breadcrumbs = [
 ],
 [
 'name' => 'Chi tiết tài khoản',
-'url' => route('user.show', $user->id),
+'url' => route('order.show', $order->id),
 'active' => true,
 ]
 ];
+
+$address = explode(',', $order->address);
 @endphp
 
 @section('content')
-<div class="container-fluid">
+<div class="py-4">
+
+
+  <x-Dashboard.Shared.Breadcrumb :breadcrumbs="$breadcrumbs" />
   <div class="card">
-    <div class="card-header">
+    <div class="card-header d-flex justify-content-between align-items-center">
       <h5>Đơn Đặt Hàng
-        <span>
-          <a href="{{ route('order.edit', $order->id) }}" class=" btn btn-sm btn-warning shadow-sm float-right mr-2"><i
-              class="fas fa-edit mr-1"></i>Sửa</a>
-        </span>
       </h5>
+      <span>
+        <a href="{{ route('order.edit', $order->id) }}" class=" btn btn-sm btn-warning shadow-sm mr-2"><i
+            class="fas fa-edit mr-1"></i>Sửa</a>
+      </span>
     </div>
     <div class="card-body">
       @if ($order)
@@ -90,19 +95,19 @@ $breadcrumbs = [
                   </tr>
                   <tr>
                     <td>Địa chỉ</td>
-                    <td> : {{ $order->address }}</td>
+                    <td> : {{ $address[0] ?: $address[0] }}</td>
                   </tr>
                   <tr>
-                    <td>Phường/Xã:</td>
-                    <td> : {{ $order->user->address->ward->name_with_type }}</td>
+                    <td>Phường/Xã: </td>
+                    <td> : {{ $address[1] ?: $address[1] }}</td>
                   </tr>
                   <tr>
                     <td>Thành phố/Quận</td>
-                    <td> : {{ $order->user->address->district->name_with_type }}</td>
+                    <td> : {{ $address[2] ?: $address[2] }}</td>
                   </tr>
                   <tr>
                     <td>Tỉnh</td>
-                    <td> : {{ $order->user->address->province->name_with_type }}</td>
+                    <td> : {{ $address[3] ?: $address[3] }}</td>
                   </tr>
                 </table>
               </div>

@@ -46,7 +46,7 @@ $columns = [
     </td>
     <td>{{ $product->title }}</td>
     <td>{{ $product->category->title }}</td>
-    <td>{{ Helpers::formatCurrency($product->price) }}đ</td>
+    <td>{{ Helpers::formatCurrency($product->price) }}</td>
     <td> {{ $product->discount }}%</td>
     <td>{{ $product->quantity }}</td>
     <td>{{ $product->sold }}</td>

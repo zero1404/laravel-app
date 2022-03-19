@@ -41,7 +41,7 @@ $columns = [
     <td class="text-center">
       {!! Helpers::displayStatusOrder($order->status) !!}
     </td>
-    <td>{{ Helpers::formatCurrency($order->total) }}đ</td>
+    <td>{{ Helpers::formatCurrency($order->total) }}</td>
     <td>
       <a href="{{ route('order.show', $order->id) }}" class="btn btn-primary btn-sm float-left mr-1 btn-action"
         data-toggle="tooltip" title="Xem" data-placement="bottom"><i class="fas fa-info-circle"></i></a>

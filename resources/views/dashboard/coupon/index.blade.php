@@ -42,7 +42,7 @@ $columns = [
     </td>
     <td>
       @if ($coupon->type == 'fixed')
-      {{ Helpers::formatCurrency($coupon->value) }}đ
+      {{ Helpers::formatCurrency($coupon->value) }}
       @else
       {{ $coupon->value }}%
       @endif

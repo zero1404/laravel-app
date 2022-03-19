@@ -72,7 +72,7 @@ $breadcrumbs = [
 
               <tr>
                 <td>Giá</td>
-                <td>{{ Helpers::formatCurrency($product->price) }} VNĐ</td>
+                <td>{{ Helpers::formatCurrency($product->price) }}</td>
               </tr>
 
               <tr>

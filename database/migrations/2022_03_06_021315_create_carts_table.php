@@ -17,6 +17,7 @@ class CreateCartsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->decimal('total');
+            $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users');
         });

@@ -18,10 +18,9 @@ class CartController extends Controller
         $user = Auth::user();
 
         if (session('coupon')) {
-            $coupon = Coupon::find(session('coupon')['id']);
+            $coupon = Coupon::find(session('coupon')['id'])->first();
             if (!Helpers::isValidCoupon($coupon)) {
                 session()->forget('coupon');
-                Coupon::deactivate($coupon->id);
             }
         }
 

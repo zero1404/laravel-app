@@ -1,74 +1,51 @@
-<header>
-  <div class="header-area">
-    <div class="main-header ">
-      <div class="header-top ">
-        <div class="container">
-          <div class="row">
-            <div class="col-xl-12">
-              <div class="d-flex justify-content-between align-items-center flex-sm">
-                <div class="header-info-left d-flex align-items-center">
+<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+    <div class="container">
+        <a class="navbar-brand" href="{{ route('shop.home') }}">ABCBOOK</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
+            aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="oi oi-menu"></span> Menu
+        </button>
+        <form class='nav-search' method='get' action="{{ route('shop.product-search') }}">
+            <input name='keyword' class="form-control form-search" type="text" placeholder="Nhập từ khoá tìm kiếm..." />
+            <input type="submit" style="display:none" />
+        </form>
+        <div class="collapse navbar-collapse" id="ftco-nav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active"><a href="{{ route('shop.home') }}" class="nav-link">Trang Chủ</a></li>
 
-                  <div class="logo">
-                    <a href=""><img src="{{ asset('shop/img/logo/header.png') }}" alt="Logo"></a>
-                  </div>
-
-                  <form action="#" class="form-box">
-                    <input type="text" name="Search" placeholder="Search book by author or publisher">
-                    <div class="search-icon">
-                      <i class="ti-search"></i>
+                <x-Shop.Shared.CategoryMenu :categories="Helpers::getListMenuCategory()" />
+                <li class="nav-item"><a href="{{ route('shop.contact') }}" class="nav-link">Liên Hệ</a></li>
+                <li class="nav-item cta cta-colored">
+                    <a id="cart_count" href="{{ route('shop.cart') }}" class="nav-link">
+                        <span class="icon-shopping_cart"></span>
+                        @guest
+                            [0]
+                        @else
+                            [{{ Helpers::getCartCount() }}]
+                        @endguest
+                    </a>
+                </li>
+                <li class="nav-item cta cta-colored dropdown">
+                    <a class="nav-link dropdown-toggle" id="dropdown04" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false"><span
+                            class="icon-user mr-2"></span>{{ Auth::check() ? Auth::user()->fullname : 'Tài khoản' }}</a>
+                    <div class="dropdown-menu" aria-labelledby="dropdown04">
+                        @guest
+                            <a class="dropdown-item" href="{{ route('shop.user-login') }}">Đăng nhập</a>
+                            <a class="dropdown-item" href="{{ route('shop.user-register') }}">Đăng ký</a>
+                        @else
+                            @if (Auth::user()->role == 'admin' || Auth::user()->role == 'employee')
+                                <a class="dropdown-item" href="{{ route('dashboard.index') }}">Dashboard</a>
+                            @endif
+                            <a class="dropdown-item" href="{{ route('shop.list-ordered') }}">Đơn đặt hàng</a>
+                            <a class="dropdown-item" href="{{ route('shop.profile') }}">Thông tin</a>
+                            <a href="javascript:void(0)" class="dropdown-item" data-toggle="modal"
+                                data-target="#modalLogout">Đăng Xuất</a>
+                        @endguest
                     </div>
-                  </form>
-                </div>
-                <div class="header-info-right d-flex align-items-center">
-                  <ul>
-                    <li><a href="#">FAQ</a></li>
-                    <li><a href="#">Track Order</a></li>
-                    <li class="shopping-card">
-                      <a href="cart.html"><img src="{{ asset('shop/img/icon/cart.svg') }}" alt=""></a>
-                    </li>
-                    <li><a href="{{ route('shop.login') }}" class="btn header-btn">{{ __('Đăng Nhập') }}</a></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
+                </li>
+            </ul>
         </div>
-      </div>
-      <div class="header-bottom  header-sticky">
-        <div class="container">
-          <div class="row align-items-center">
-            <div class="col-xl-12">
-
-              <div class="logo2">
-                <a href=""><img src="{{ asset('shop/img/logo/header.png') }}" alt=""></a>
-              </div>
-
-              <div class="main-menu text-center d-none d-lg-block">
-                <nav>
-                  <ul id="navigation">
-                    <li><a href="{{ route('shop.home')}}">{{ __('Trang Chủ') }}</a></li>
-                    <li><a href="javascript:void(0)">{{ __('Thể Loại') }}</a>
-                      <ul class="submenu">
-                        @foreach(Helpers::getListMenuCategory() as $category)
-                        <li><a href="">
-                            {{$category->title}}
-                          </a>
-                        </li>
-                        @endforeach
-                      </ul>
-                    </li>
-                    <li><a href="{{ route('shop.about')}}">{{ __('Giới Thiệu') }}</a></li>
-                  </ul>
-                </nav>
-              </div>
-            </div>
-
-            <div class="col-xl-12">
-              <div class="mobile_menu d-block d-lg-none"></div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
-</header>
+</nav>
+<!-- END nav -->

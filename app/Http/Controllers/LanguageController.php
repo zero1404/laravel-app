@@ -4,9 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Language;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Notification;
-use App\Models\User;
-use App\Notifications\StatusNotification;
 
 class LanguageController extends Controller
 {
@@ -53,15 +50,6 @@ class LanguageController extends Controller
         $status = Language::create($data);
 
         if ($status) {
-            $details = [
-                'title' => 'Có đơn đặt hàng mới',
-                'content' => 'An đã tạo đơn hàng mới',
-                'actionURL' => route('language.show', $status->id),
-                'fas' => 'fa-cart-plus'
-            ];
-
-            $users = User::where('role', 'admin')->first();
-            Notification::send($users, new StatusNotification($details));
             request()->session()->flash('success', 'Tạo ngôn ngữ thành công.');
         } else {
             request()->session()->flash('error', 'Có lỗi xảy ra, vui lòng thử lại!');
