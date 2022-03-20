@@ -28,7 +28,7 @@
             </div>
             <div class="col-lg-6 product-details pl-md-5 ftco-animate">
                 <h3>{{ $product->title }}</h3>
-                <p class="price"><span class='text-danger'>{{ $product->origin_price }}đ</span></p>
+                <p class="price"><span class='text-danger'>{{ $product->origin_price }}</span></p>
                 <div class="rating d-flex flex-column">
                     <span class="text-left py-1">
                         Đã bán: <span style="color: rgb(85, 85, 85);"> {{ $product->sold }}</span>
