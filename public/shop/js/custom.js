@@ -292,7 +292,6 @@ $("#order").click(function () {
             window.location.href = `${window.location.origin}/order-success`;
         },
         error: function (error) {
-            console.log(error);
             if (error.status === 401) {
                 window.location.href = "/login";
                 return;

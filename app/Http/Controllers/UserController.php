@@ -110,6 +110,10 @@ class UserController extends Controller
             $data['address_id'] = $address->id;
         }
 
+        if (!$request->input('avatar')) {
+            $data['avatar'] = env('DEFAULT_URL_AVATAR');
+        }
+
         $data['password'] = Hash::make($request->password);
         $data['birthday'] = \Carbon\Carbon::parse($request->input('birthday'));
         $data['gender'] = $request->input('gender') == 'male';
@@ -257,6 +261,10 @@ class UserController extends Controller
             $address->ward_id = $data['ward'];
             $address->save();
             $data['address_id'] = $address->id;
+        }
+
+        if (!$request->input('avatar')) {
+            $data['avatar'] = env('DEFAULT_URL_AVATAR');
         }
 
         $data['birthday'] = \Carbon\Carbon::parse($request->input('birthday'));
