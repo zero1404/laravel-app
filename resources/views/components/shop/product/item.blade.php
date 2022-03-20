@@ -1,7 +1,7 @@
 <div class="col-md-6 col-lg-3 ftco-animate">
     <div class="product">
         <a href="{{ route('shop.product-detail', $product->slug) }}" class="img-prod text-center"><img
-                class="img-fluid img-thumbnail" style="max-width:180px; max-height: 200px" src="{{ $product->images }}"
+                class="img-fluid" style="max-width:180px; max-height: 200px" src="{{ $product->images }}"
                 alt="{{ $product->title }}">
             <span class="status">{{ $product->discount }}%</span>
             <div class="overlay"></div>
@@ -11,7 +11,7 @@
             <div class="d-flex">
                 <div class="pricing">
                     <p class="price"><span
-                            class="price-sale">{{ $product->price_after_discount }}</span>đ</span>
+                            class="price-sale">{{ $product->price_after_discount }}</span></span>
                     </p>
                 </div>
             </div>

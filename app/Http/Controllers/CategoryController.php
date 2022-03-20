@@ -54,7 +54,13 @@ class CategoryController extends Controller
         ], $messages);
 
         $data = $request->all();
-        $slug = Str::slug($request->title);
+        $slug = Str::Slug($request->title);
+        $count = Category::where('slug', $slug)->count();
+
+        if ($count > 0) {
+            $slug += '-' . $count;
+        }
+
         $data['slug'] = $slug;
         $status = Category::create($data);
 
