@@ -28,7 +28,7 @@
                     <h2 class="ftco-heading-2">Menu</h2>
                     <ul class="list-unstyled">
                         <li><a href="{{ route('shop.product-list') }}" class="py-2 d-block">Shop</a></li>
-                        <li><a href="{{ route('shop.about') }}" class="py-2 d-block">Giới Thiệu</a></li>
+                        <li><a href="{{ route('shop.home') }}" class="py-2 d-block">Giới Thiệu</a></li>
                         <li><a href="{{ route('shop.home') }}" class="py-2 d-block">Tin Tức</a></li>
                         <li><a href="{{ route('shop.contact') }}" class="py-2 d-block">Liên Hệ Chúng Tôi</a></li>
                     </ul>

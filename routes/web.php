@@ -35,7 +35,6 @@ Route::group(['as' => 'shop.'], function () {
     // Home
     Route::get('/', 'HomeController@index')->name('home');
     Route::get('/contact', 'HomeController@showContact')->name('contact');
-    Route::get('/about', 'HomeController@showAbout')->name('about');
 
     //Category
     Route::get('/category/{slug}', 'HomeController@productByCategory')->name('product-by-category');
