@@ -52,12 +52,12 @@ class HomeController extends Controller
         return view('shop.home', compact('products', 'productsHot'));
     }
 
-    public function about()
+    public function showAbout()
     {
         return view('shop.about.index');
     }
 
-    public function contact()
+    public function showContact()
     {
         return view('shop.contact.index');
     }

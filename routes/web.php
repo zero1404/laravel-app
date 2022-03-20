@@ -32,8 +32,9 @@ Route::group(['as' => 'api.'], function () {
 });
 
 Route::group(['as' => 'shop.'], function () {
+    // Home
     Route::get('/', 'HomeController@index')->name('home');
-    Route::get('/contact', 'HomeController@contact')->name('contact');
+    Route::get('/contact', 'HomeController@showContact')->name('contact');
     Route::get('/about', 'HomeController@showAbout')->name('about');
 
     //Category
@@ -50,11 +51,6 @@ Route::group(['as' => 'shop.'], function () {
     Route::post('/user/logout', 'Auth\LoginController@logout')->name('logout');
     Route::get('user/register', 'HomeController@register')->name('user-register');
     Route::post('user/register', 'Auth\RegisterController@register');
-
-    Route::group(['prefix' => '/auth'], function () {
-        Route::get('/login', 'HomeController@showLogin')->name('login');
-        Route::get('/register', 'HomeController@showRegister')->name('register');
-    });
 
     Route::group(['middleware' => ['auth']], function () {
         // Cart
@@ -115,6 +111,6 @@ Route::group(['prefix' => '/dashboard', 'middleware' => ['auth', 'dashboard.acce
 
 Auth::routes();
 
-Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth', 'dashboard.access']], function () {
     \UniSharp\LaravelFilemanager\Lfm::routes();
 });
