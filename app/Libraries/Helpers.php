@@ -95,15 +95,15 @@ class Helpers
   {
     switch ($status) {
       case 'new':
-        return '<span class="badge badge-secondary">Mới</span>';
+        return '<span class="badge badge-sm bg-secondary ms-1">Mới</span>';
       case 'accepted':
-        return '<span class="badge badge-primary">Đã xác nhận</span>';
+        return '<span class="badge badge-sm bg-primary ms-1">Đã xác nhận</span>';
       case 'delivering':
-        return '<span class="badge badge-info">Đang vận chuyển</span>';
+        return '<span class="badge badge-sm bg-info ms-1">Đang vận chuyển</span>';
       case 'cancel':
-        return '<span class="badge badge-danger">Đã huỷ</span>';
+        return '<span class="badge badge-sm bg-danger ms-1">Đã huỷ</span>';
       default:
-        return '<span class="badge badge-success">Hoàn thành</span>';
+        return '<span class="badge badge-sm bg-success ms-1">Hoàn thành</span>';
     }
   }
 
